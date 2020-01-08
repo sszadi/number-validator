@@ -11,13 +11,13 @@ import java.util.List;
 class PhoneNumberService {
 	void processPhoneNumbers(MultipartFile file) throws FileParseException {
 		List<PhoneNumber> phoneNumbers = phoneNumberParser.parsePhoneNumbersFromCsv(file);
-
-
-
+		validator.validatePhoneNumbers(phoneNumbers);
 		phoneNumberRepository.saveAll(phoneNumbers);
 	}
 
 	private final PhoneNumberParser phoneNumberParser;
 
 	private final PhoneNumberRepository phoneNumberRepository;
+
+	private final AfricanPhoneNumberValidator validator;
 }
