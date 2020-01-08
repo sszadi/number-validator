@@ -1,5 +1,5 @@
 package com.olx.number;
 
 public interface NumberRule {
-	void validate();
+	void validate(PhoneNumber phoneNumber);
 }

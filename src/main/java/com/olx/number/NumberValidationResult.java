@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Data
-class NumberValidationResult {
+public class NumberValidationResult {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

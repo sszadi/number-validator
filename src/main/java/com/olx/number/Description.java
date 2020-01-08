@@ -1,5 +1,5 @@
 package com.olx.number;
 
-enum Description {
+public enum Description {
 	ADD_PREFIX, NOT_ENOUGH_NUMBERS, TOO_MUCH_NUMBERS, REDUNDANT_CHARS_DELETED, FIXED_PREFIX
 }

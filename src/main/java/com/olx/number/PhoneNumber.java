@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-class PhoneNumber {
+public class PhoneNumber {
 
 	@Id
 	private String numberId;
