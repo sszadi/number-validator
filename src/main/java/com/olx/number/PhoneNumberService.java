@@ -11,8 +11,8 @@ import java.util.List;
 class PhoneNumberService {
 	void processPhoneNumbers(MultipartFile file) throws FileParseException {
 		List<PhoneNumber> phoneNumbers = phoneNumberParser.parsePhoneNumbersFromCsv(file);
-		validator.validatePhoneNumbers(phoneNumbers);
-		phoneNumberRepository.saveAll(phoneNumbers);
+		List<PhoneNumber> phoneNumbersAfterValidation = validator.validatePhoneNumbers(phoneNumbers);
+		phoneNumberRepository.saveAll(phoneNumbersAfterValidation);
 	}
 
 	private final PhoneNumberParser phoneNumberParser;

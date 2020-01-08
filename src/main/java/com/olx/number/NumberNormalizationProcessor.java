@@ -19,19 +19,24 @@ class NumberNormalizationProcessor {
 
 		for (PhoneNumber phoneNumber : phoneNumbers) {
 			if (phoneNumber.getNumber().contains(DELETED)) {
+				NumberValidationResult result = new NumberValidationResult();
+				result.setDescription(REDUNDANT_CHARS_DELETED);
 				if (phoneNumber.getNumber().matches(NUMBERS_TO_SPLIT)) {
 					log.debug("Number to split= {}", phoneNumber);
 					String[] splitNumbers = phoneNumber.getNumber().split(DELETED);
 					numbersToRemove.add(phoneNumber);
-					numbersToAdd.add(PhoneNumber.builder().number(splitNumbers[0]).numberId(UUID.randomUUID().toString()).build());
-					numbersToAdd.add(PhoneNumber.builder().number(splitNumbers[1]).numberId(UUID.randomUUID().toString()).build());
+					PhoneNumber firstNumber = PhoneNumber.builder().number(splitNumbers[0]).status(Status.FIXED)
+						.result(result).numberId(UUID.randomUUID().toString()).build();
+					numbersToAdd.add(firstNumber);
+					PhoneNumber secondNumber = PhoneNumber.builder().status(Status.FIXED)
+						.result(result).number(splitNumbers[1]).numberId(UUID.randomUUID().toString()).build();
+					numbersToAdd.add(secondNumber);
 				} else {
 					log.debug("Number to normalize= {}", phoneNumber);
 					phoneNumber.setNumber(phoneNumber.getNumber().replace(DELETED, ""));
+					phoneNumber.setResult(result);
+					phoneNumber.setStatus(Status.FIXED);
 				}
-				NumberValidationResult result = new NumberValidationResult();
-				result.setDescription(REDUNDANT_CHARS_DELETED);
-				phoneNumber.setResult(result);
 			}
 		}
 
