@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+import static org.junit.Assert.assertTrue;
+
 @SpringBootTest
 class PhoneNumberServiceTest {
 
@@ -22,6 +24,8 @@ class PhoneNumberServiceTest {
 			"text/plain", fi1eInputStream);
 
 		phoneNumberService.processPhoneNumbers(multipartFile);
+		// TODO
+		assertTrue(Boolean.FALSE);
 
 	}
 

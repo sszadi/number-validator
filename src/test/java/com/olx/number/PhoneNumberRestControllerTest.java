@@ -16,6 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Objects;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(PhoneNumberRestController.class)
@@ -23,15 +24,15 @@ class PhoneNumberRestControllerTest {
 
 	@Test
 	public void shouldUploadFile() throws Exception {
-		String fileName = "South_African_Mobile_Numbers.csv";
-		FileInputStream fi1eInputStream = new FileInputStream(new File(fileName));
-
-		MockMultipartFile mockMultipartFile = new MockMultipartFile("user-file", fileName,
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(Objects.requireNonNull(classLoader.getResource("South_African_Mobile_Numbers.csv")).getFile());
+		FileInputStream fi1eInputStream = new FileInputStream(file);
+		MockMultipartFile multipartFile = new MockMultipartFile("user-file", "test.csv",
 			"text/plain", fi1eInputStream);
 
 		MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/phone-number")
-			.file("file", mockMultipartFile.getBytes())
+			.file("file", multipartFile.getBytes())
 			.characterEncoding("UTF-8"))
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andDo(MockMvcResultHandlers.print());

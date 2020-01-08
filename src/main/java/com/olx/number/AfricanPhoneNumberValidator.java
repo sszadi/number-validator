@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.olx.number.african.AfricanNumberRules.NUMBER_WITHOUT_PREFIX;
+import static com.olx.number.african.AfricanNumberRules.PHONE_NUMBER_REGEX;
 
 @RequiredArgsConstructor
 @Component
@@ -23,10 +23,10 @@ class AfricanPhoneNumberValidator {
 	List<PhoneNumber> validatePhoneNumbers(List<PhoneNumber> phoneNumbers) {
 		List<PhoneNumber> validNumbers = markValidNumbers(phoneNumbers);
 
-		List<PhoneNumber> numbersToValidate =
+		List<PhoneNumber> numbersToNormalize =
 			phoneNumbers.stream().filter(n -> !validNumbers.contains(n)).collect(Collectors.toList());
 
-		normalizationProcessor.normalizeNumbers(numbersToValidate);
+		List<PhoneNumber> numbersToValidate = normalizationProcessor.normalizeNumbers(numbersToNormalize);
 		runValidations(numbersToValidate);
 
 		return Stream.concat(validNumbers.stream(), numbersToValidate.stream())
@@ -50,7 +50,7 @@ class AfricanPhoneNumberValidator {
 
 	private List<PhoneNumber> markValidNumbers(List<PhoneNumber> phoneNumbers) {
 		List<PhoneNumber> validNumbers = phoneNumbers.stream().
-			filter(n -> n.getNumber().matches(NUMBER_WITHOUT_PREFIX)).collect(Collectors.toList());
+			filter(n -> n.getNumber().matches(PHONE_NUMBER_REGEX)).collect(Collectors.toList());
 		validNumbers.forEach(n -> n.setStatus(Status.VALID));
 		return validNumbers;
 	}
