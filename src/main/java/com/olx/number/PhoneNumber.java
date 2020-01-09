@@ -11,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -28,4 +29,7 @@ public class PhoneNumber {
 	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "numberId", referencedColumnName = "id")
 	private NumberValidationResult result;
+	@ManyToOne
+	@JoinColumn(name = "fileIdentifier", nullable = false)
+	private Statistics statistic;
 }

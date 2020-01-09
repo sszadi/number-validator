@@ -31,7 +31,7 @@ class PhoneNumberRestControllerTest {
 			"text/plain", fi1eInputStream);
 
 		MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/phone-number")
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/phone-number/upload")
 			.file("file", multipartFile.getBytes())
 			.characterEncoding("UTF-8"))
 			.andExpect(MockMvcResultMatchers.status().isOk())
