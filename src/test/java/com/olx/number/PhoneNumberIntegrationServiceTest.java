@@ -23,7 +23,7 @@ class PhoneNumberServiceTest {
 		MockMultipartFile multipartFile = new MockMultipartFile("user-file", "test.csv",
 			"text/plain", fi1eInputStream);
 
-		phoneNumberService.processPhoneNumbers(multipartFile);
+		PhoneNumberUploadResponse response = phoneNumberService.processPhoneNumbers(multipartFile);
 		// TODO
 		assertTrue(Boolean.FALSE);
 
@@ -37,6 +37,10 @@ class PhoneNumberServiceTest {
 	private AfricanPhoneNumberValidator validator;
 	@Autowired
 	private NumberNormalizationProcessor normalizationProcessor;
+	@Autowired
+	private PhoneNumberStatisticsCollector statisticsCollector;
+	@Autowired
+	private StatisticsRepository statisticsRepository;
 
 
 }
