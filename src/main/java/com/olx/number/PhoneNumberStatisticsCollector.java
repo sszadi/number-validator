@@ -18,11 +18,10 @@ class PhoneNumberStatisticsCollector {
 			.validAmount(Math.toIntExact(numbers.stream().filter(n -> Status.VALID.equals(n.getStatus())).count()))
 			.fixedAmount(Math.toIntExact(numbers.stream().filter(n -> Status.FIXED.equals(n.getStatus())).count()))
 			.invalidAmount(Math.toIntExact(numbers.stream().filter(n -> Status.INVALID.equals(n.getStatus())).count()))
+			.numberList(numbers)
 			.build();
-		statisticsRepository.save(statistics);
 		log.debug("Calculated statistics= {}", statistics);
 		return statistics;
 	}
 
-	private final StatisticsRepository statisticsRepository;
 }

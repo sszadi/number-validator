@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
@@ -51,20 +50,8 @@ public class PhoneNumberStatisticsCollectorTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		statisticsCollector =
-			new PhoneNumberStatisticsCollector(statisticsRepository);
+		statisticsCollector = new PhoneNumberStatisticsCollector();
 	}
-
-	@Parameterized.Parameter
-	public List<PhoneNumber> numbers;
-	@Parameterized.Parameter(1)
-	public int validAmount;
-	@Parameterized.Parameter(2)
-	public int fixedAmount;
-	@Parameterized.Parameter(3)
-	public int invalidAmount;
-	@Parameterized.Parameter(4)
-	public int createdAmount;
 
 	@Test
 	public void shouldCalculateStatistics() {
@@ -81,7 +68,15 @@ public class PhoneNumberStatisticsCollectorTest {
 		assertNotNull(statistics.getFileIdentifier());
 	}
 
+	@Parameterized.Parameter
+	public List<PhoneNumber> numbers;
+	@Parameterized.Parameter(1)
+	public int validAmount;
+	@Parameterized.Parameter(2)
+	public int fixedAmount;
+	@Parameterized.Parameter(3)
+	public int invalidAmount;
+	@Parameterized.Parameter(4)
+	public int createdAmount;
 	private PhoneNumberStatisticsCollector statisticsCollector;
-	@Mock
-	private StatisticsRepository statisticsRepository;
 }

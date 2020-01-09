@@ -14,7 +14,8 @@ class PhoneNumberService {
 		List<PhoneNumber> phoneNumbers = phoneNumberParser.parsePhoneNumbersFromCsv(file);
 		List<PhoneNumber> phoneNumbersAfterValidation = validator.validatePhoneNumbers(phoneNumbers);
 		Statistics statistics = statisticsCollector.calculateStatistics(phoneNumbersAfterValidation);
-		phoneNumberRepository.saveAll(phoneNumbersAfterValidation);
+		phoneNumbersAfterValidation.forEach(n -> n.setStatistic(statistics));
+		statisticsRepository.save(statistics);
 		return PhoneNumberUploadResponse.builder()
 			.result(phoneNumbersAfterValidation)
 			.statistics(statistics)
@@ -23,15 +24,15 @@ class PhoneNumberService {
 
 	PhoneNumber testSingleNumber(String number) {
 		List<PhoneNumber> validationResult = validator.validatePhoneNumbers(Collections.singletonList(PhoneNumber.builder().number(number).build()));
-		return validationResult.size() > 1 ? validationResult.get(0) : null;
+		return validationResult.size() >= 1 ? validationResult.get(0) : null;
 	}
 
 
 	private final PhoneNumberStatisticsCollector statisticsCollector;
 
-	private final PhoneNumberParser phoneNumberParser;
+	private final StatisticsRepository statisticsRepository;
 
-	private final PhoneNumberRepository phoneNumberRepository;
+	private final PhoneNumberParser phoneNumberParser;
 
 	private final AfricanPhoneNumberValidator validator;
 }
